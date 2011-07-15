@@ -51,35 +51,6 @@ public class PermHandler {
 		}
 	}
 
-	public static boolean permission(Player player, Perms perm, boolean defaultPerm) {
-		switch (handler) {
-		case PERMISSIONSEX:
-			return PermissionsEx.getPermissionManager().has(player, perm.getPerm());
-		case PERMISSIONS:
-			return ((Permissions) permissionPlugin).getHandler().has(player, perm.getPerm());
-		case NONE:
-			return defaultPerm;
-		default:
-			return defaultPerm;
-		}
-	}
-
-	/*
-	 * Return an info double
-	 */
-	public static double infoDouble(Player player, String nodeName) {
-		switch (handler) {
-		case PERMISSIONSEX:
-			return PermissionsEx.getPermissionManager().getUser(player.getName()).getOptionDouble(nodeName, player.getWorld().getName(), -1);
-		case PERMISSIONS:
-			return ((Permissions) permissionPlugin).getHandler().getPermissionDouble(player.getWorld().getName(), player.getName(), nodeName);
-		case NONE:
-			return -1;
-		default:
-			return -1;
-		}
-	}
-
 	public static boolean has(Player player, Perms perm) {
 		switch (handler) {
 		case PERMISSIONSEX:
@@ -87,7 +58,7 @@ public class PermHandler {
 		case PERMISSIONS:
 			return ((Permissions) permissionPlugin).getHandler().has(player, perm.getPerm());
 		case NONE:
-			return false;
+			return player.isOp();
 		default:
 			return false;
 		}
