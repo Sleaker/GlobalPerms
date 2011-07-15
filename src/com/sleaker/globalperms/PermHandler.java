@@ -58,9 +58,8 @@ public class PermHandler {
 		case PERMISSIONS:
 			return ((Permissions) permissionPlugin).getHandler().has(player, perm.getPerm());
 		case NONE:
-			return player.isOp();
 		default:
-			return false;
+			return player.isOp();
 		}
 	}
 
