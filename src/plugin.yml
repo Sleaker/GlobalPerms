@@ -1,0 +1,5 @@
+name: GlobalPerms
+main: com.sleaker.globalperms.GlobalPerms
+version: 0.1.1
+author: Sleaker
+depend: [Vault]
