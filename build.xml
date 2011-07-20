@@ -43,7 +43,7 @@
   
   <target name="compress" description="Compression target">
   		<echo>Compressing</echo>
-        <jar jarfile="GlobalPerms.jar" basedir="bin" includes="net/**/*, plugin.yml, props/*">
+        <jar jarfile="GlobalPerms.jar" basedir="bin" includes="net/**/*, plugin.yml">
 		<manifest>
 			<attribute name="Built-By" value="${user.name}" />
 		</manifest>
