@@ -1,4 +1,4 @@
-package com.sleaker.globalperms;
+package net.milkbowl.globalperms;
 
 import java.util.Collection;
 import java.util.logging.Logger;

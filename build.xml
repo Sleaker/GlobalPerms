@@ -28,10 +28,6 @@
         <echo>- Vault</echo>
 		<get src="http://ci.milkbowl.net/job/Vault/lastSuccessfulBuild/artifact/Vault.jar"
 			dest="lib/Vault.jar" verbose="false" usetimestamp="true"/>
-    	<echo>- Administrate</echo>
-    	<get src="http://ci.milkbowl.net/job/Administrate/lastSuccessfulBuild/artifact/Administrate.jar"
-    		dest="lib/Administrate.jar" verbose="false" usetimestamp="true"/>
-
     </target>
   
     <target name="compile" description="Compilation target">

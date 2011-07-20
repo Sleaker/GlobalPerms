@@ -1,4 +1,4 @@
-package com.sleaker.globalperms;
+package net.milkbowl.globalperms;
 
 public enum Perms {
 	USE_CHEST("use.chest"),

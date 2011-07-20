@@ -1,4 +1,4 @@
-package com.sleaker.globalperms;
+package net.milkbowl.globalperms;
 
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;

@@ -1,4 +1,4 @@
-package com.sleaker.globalperms;
+package net.milkbowl.globalperms;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

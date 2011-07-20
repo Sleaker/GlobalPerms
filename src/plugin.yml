@@ -1,5 +1,5 @@
 name: GlobalPerms
-main: com.sleaker.globalperms.GlobalPerms
+main: net.milkbowl.globalperms.GlobalPerms
 version: 1.0-b00
 author: Sleaker
 depend: [Vault]
