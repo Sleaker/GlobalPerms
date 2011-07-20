@@ -8,8 +8,9 @@ import org.bukkit.event.entity.EntityListener;
 
 public class GPEntityListener extends EntityListener {
 
-	public GPEntityListener() {
-
+	GlobalPerms plugin;
+	public GPEntityListener(GlobalPerms plugin) {
+		this.plugin = plugin;
 	}
 
 	public void onEntityDamageEvent(EntityDamageEvent event) {
@@ -35,19 +36,19 @@ public class GPEntityListener extends EntityListener {
 			}
 
 			if (attacker != null) {
-				if ( PermHandler.has(defender, Perms.PVP_IMMUNE) || PermHandler.has(attacker, Perms.PVP_IMMUNE) )
+				if ( plugin.has(defender, Perms.PVP_IMMUNE) || plugin.has(attacker, Perms.PVP_IMMUNE) )
 					event.setCancelled(true);
 			}
 		} else if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent subEvent = (EntityDamageByEntityEvent) event;
 			if (subEvent.getDamager() instanceof Player) {
-				if (PermHandler.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
+				if (plugin.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
 					event.setCancelled(true);
 			}
 		} else if (event instanceof EntityDamageByProjectileEvent) {
 			EntityDamageByProjectileEvent subEvent = (EntityDamageByProjectileEvent) event;
 			if (subEvent.getDamager() instanceof Player) {
-				if (PermHandler.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
+				if (plugin.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
 					event.setCancelled(true);
 			}
 		}

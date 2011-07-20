@@ -6,14 +6,16 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class GPBlockListener extends BlockListener{
 	
-	public GPBlockListener() {
+	GlobalPerms plugin;
+	public GPBlockListener(GlobalPerms plugin) {
+		this.plugin = plugin;
 	}
 
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if (event.isCancelled())
 			return;
 		
-		if (!PermHandler.has(event.getPlayer(), Perms.BUILD))
+		if (!plugin.has(event.getPlayer(), Perms.BUILD))
 			event.setCancelled(true);
 	}
 	
@@ -21,7 +23,7 @@ public class GPBlockListener extends BlockListener{
 		if (event.isCancelled())
 			return;
 		
-		if (!PermHandler.has(event.getPlayer(), Perms.BUILD))
+		if (!plugin.has(event.getPlayer(), Perms.BUILD))
 			event.setCancelled(true);
 	}
 }
