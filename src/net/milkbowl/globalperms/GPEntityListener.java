@@ -13,9 +13,12 @@ public class GPEntityListener extends EntityListener {
 		this.plugin = plugin;
 	}
 
-	public void onEntityDamageEvent(EntityDamageEvent event) {
+	@Override
+	public void onEntityDamage(EntityDamageEvent event) {
 		if (event.isCancelled())
 			return;
+
+		Player player = null;
 		if (event.getEntity() instanceof Player) {
 			Player defender = (Player) event.getEntity();
 			Player attacker = null;
@@ -42,15 +45,18 @@ public class GPEntityListener extends EntityListener {
 		} else if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent subEvent = (EntityDamageByEntityEvent) event;
 			if (subEvent.getDamager() instanceof Player) {
-				if (plugin.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
-					event.setCancelled(true);
-			}
+				player = (Player) subEvent.getDamager();
+			} else if (subEvent.getEntity() instanceof Player)
+				player = (Player) subEvent.getEntity();
 		} else if (event instanceof EntityDamageByProjectileEvent) {
 			EntityDamageByProjectileEvent subEvent = (EntityDamageByProjectileEvent) event;
 			if (subEvent.getDamager() instanceof Player) {
-				if (plugin.has((Player) subEvent.getDamager(), Perms.COMBAT_IMMUNE))
-					event.setCancelled(true);
-			}
+				player = (Player) subEvent.getDamager();
+			} else if (subEvent.getEntity() instanceof Player)
+				player = (Player) subEvent.getEntity();
 		}
+		if (player != null)
+			if (plugin.has(player, Perms.COMBAT_IMMUNE))
+				event.setCancelled(true);
 	}
 }

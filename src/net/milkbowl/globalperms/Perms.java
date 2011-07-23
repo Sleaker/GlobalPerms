@@ -5,16 +5,16 @@ public enum Perms {
 	USE_DOOR("use.door"),
 	USE_SIGN("use.sign"),
 	USE_BED("use.bed"),
-	USE_LAVA("use.lava"),
-	USE_WATER("use.water"),
+	USE_LAVA("restricted.lava.use"),
+	USE_WATER("restricted.water.use"),
 	USE_ALL("use.all"),
 	BUILD("build"),
-	FILL_WATER("restricted.water"),
+	FILL_WATER("restricted.water.fill"),
 	USE_FIRE("restricted.fire"),
-	FILL_LAVA("restricted.lava"),
+	FILL_LAVA("restricted.lava.fill"),
 	CHAT("use.chat"),
-	COMBAT_IMMUNE("damage.mobs"),
-	PVP_IMMUNE("damage.pvp");
+	COMBAT_IMMUNE("immune.mobs"),
+	PVP_IMMUNE("immune.pvp");
 
 	String perm = null;
 
