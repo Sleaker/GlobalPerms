@@ -52,6 +52,7 @@ public class GlobalPerms extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_BED_ENTER, playerListener, Priority.High, this);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, playerListener, Priority.High, this);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_FILL, playerListener, Priority.High, this);
+		pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Monitor, this);
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Priority.High, this);
 
 
