@@ -9,7 +9,9 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerPreLoginEvent;
 
 
 public class GPPlayerListener extends PlayerListener {
@@ -119,5 +121,11 @@ public class GPPlayerListener extends PlayerListener {
 			if (!plugin.has(event.getPlayer(), Perms.USE_WATER))
 				event.setCancelled(true);
 		}
+	}
+	
+	@Override
+	public void onPlayerLogin(PlayerLoginEvent event) {
+		if (plugin.has(event.getPlayer(), Perms.DENY_LOGIN))
+			event.getPlayer().kickPlayer("You are not authorized on this server!");
 	}
 }

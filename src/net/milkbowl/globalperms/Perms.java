@@ -14,7 +14,8 @@ public enum Perms {
 	FILL_LAVA("restricted.lava.fill"),
 	CHAT("use.chat"),
 	COMBAT_IMMUNE("immune.mobs"),
-	PVP_IMMUNE("immune.pvp");
+	PVP_IMMUNE("immune.pvp"),
+	DENY_LOGIN("login.deny");
 
 	String perm = null;
 
