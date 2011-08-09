@@ -111,7 +111,7 @@ public class GPPlayerListener extends PlayerListener {
 		if (event.isCancelled())
 			return;
 		
-		Material mat = event.getItemStack().getType();
+		Material mat = event.getBucket();
 		if (mat.equals(Material.LAVA_BUCKET)) {
 			if (!plugin.has(event.getPlayer(), Perms.USE_LAVA))
 				event.setCancelled(true);
