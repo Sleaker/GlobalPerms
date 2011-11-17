@@ -1,6 +1,5 @@
 package net.milkbowl.globalperms;
 
-import java.util.Collection;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.permission.Permission;
@@ -61,21 +60,15 @@ public class GlobalPerms extends JavaPlugin {
 	}
 
 	private boolean setupDependencies() {
-		try {
-		Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.permission.Permission.class);
-		for(RegisteredServiceProvider<Permission> perm : perms) {
-			Permission p = perm.getProvider();
-			log.info(String.format("[%s] Found Service (Permission) %s", getDescription().getName(), p.getName()));
+		RegisteredServiceProvider<Permission> provider = this.getServer().getServicesManager().getRegistration(Permission.class);
+		if (provider != null) {
+			this.perms = provider.getProvider();
+			log.info(String.format("[%s] Using Permission Provider %s", getDescription().getName(), this.perms.getName()));
 		}
 		
-		this.perms = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
-		log.info(String.format("[%s] Using Permission Provider %s", getDescription().getName(), this.perms.getName()));
-		} catch (Exception e) {
-			return false;
-		}
 		return (this.perms != null);
 	}
-	
+
 	/**
 	 * Warns the player they did not have permission for the command.
 	 * 
