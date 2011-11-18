@@ -16,6 +16,9 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionRemovedExecutor;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Represents a Group of Permissions that can be attached, and have attachments. Along with being given ops.
+ */
 public class Group extends Permission implements Permissible  {
 	
 	private boolean op;
@@ -136,8 +139,9 @@ public class Group extends Permission implements Permissible  {
         }
 
         String name = inName.toLowerCase();
-
-        if (isPermissionSet(name)) {
+        if (name.equalsIgnoreCase(getName()))
+        	return true;
+        else if (isPermissionSet(name)) {
             return permissions.get(name).getValue();
         } else {
             Permission perm = Bukkit.getServer().getPluginManager().getPermission(name);
@@ -157,8 +161,9 @@ public class Group extends Permission implements Permissible  {
         }
 
         String name = perm.getName().toLowerCase();
-        
-        if (isPermissionSet(name)) {
+        if (name.equalsIgnoreCase(getName()))
+        	return true;
+        else if (isPermissionSet(name)) {
             return permissions.get(name).getValue();
         } else
         	return perm.getDefault().getValue(isOp());
@@ -188,6 +193,8 @@ public class Group extends Permission implements Permissible  {
         Set<Permission> defaults = Bukkit.getServer().getPluginManager().getDefaultPermissions(isOp());
         Bukkit.getServer().getPluginManager().subscribeToDefaultPerms(isOp(), this);
 
+        calculateChildPermissions(getChildren(), false, null);
+        
         for (Permission perm : defaults) {
             String name = perm.getName().toLowerCase();
             permissions.put(name, new PermissionAttachmentInfo(this, name, null, true));
