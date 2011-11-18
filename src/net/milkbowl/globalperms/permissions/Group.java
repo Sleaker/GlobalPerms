@@ -192,8 +192,6 @@ public class Group extends Permission implements Permissible  {
         clearPermissions();
         Set<Permission> defaults = Bukkit.getServer().getPluginManager().getDefaultPermissions(isOp());
         Bukkit.getServer().getPluginManager().subscribeToDefaultPerms(isOp(), this);
-
-        calculateChildPermissions(getChildren(), false, null);
         
         for (Permission perm : defaults) {
             String name = perm.getName().toLowerCase();
@@ -205,6 +203,8 @@ public class Group extends Permission implements Permissible  {
         for (PermissionAttachment attachment : attachments) {
             calculateChildPermissions(attachment.getPermissions(), false, attachment);
         }
+        
+        calculateChildPermissions(getChildren(), false, null);
 	}
 
 	@Override
