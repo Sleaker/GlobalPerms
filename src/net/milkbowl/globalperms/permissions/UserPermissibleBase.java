@@ -62,7 +62,7 @@ public class UserPermissibleBase extends PermissibleBase implements ExtendedPerm
 
 		permField.set(player, permissible);
 	}
-	
+
 	@Override
 	public boolean inGroup(String group) {
 		if (group == null)
