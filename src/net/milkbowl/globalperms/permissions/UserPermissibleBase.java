@@ -10,11 +10,7 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 
-/**
- * Designed to be injected over a player's PermissibleBase (overriding it)
- *
- */
-public class UserPermissibleBase extends PermissibleBase {
+public class UserPermissibleBase extends PermissibleBase implements ExtendedPermissibleBase {
 
 	public UserPermissibleBase(Player player) {
 		super(player);
@@ -66,7 +62,8 @@ public class UserPermissibleBase extends PermissibleBase {
 
 		permField.set(player, permissible);
 	}
-
+	
+	@Override
 	public boolean inGroup(String group) {
 		if (group == null)
 			throw new IllegalArgumentException("Group name cannot be null");
@@ -78,10 +75,12 @@ public class UserPermissibleBase extends PermissibleBase {
 		return hasPermission(group);
 	}
 
+	@Override
 	public boolean inGroup(Group group) {
 		return inGroup(group.getName());
 	}
 
+	@Override
 	public List<Group> getGroups() {
 		List<Group> groups = new ArrayList<Group>();
 		/*	Loop through all Groups and check if inGroup - add to list if true

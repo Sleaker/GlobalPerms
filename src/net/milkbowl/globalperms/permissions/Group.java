@@ -1,7 +1,9 @@
 package net.milkbowl.globalperms.permissions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,6 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -19,11 +20,12 @@ import org.bukkit.plugin.Plugin;
 /**
  * Represents a Group of Permissions that can be attached, and have attachments. Along with being given ops.
  */
-public class Group extends Permission implements Permissible  {
+public class Group extends Permission implements ExtendedPermissibleBase  {
 	
 	private boolean op;
     private final List<PermissionAttachment> attachments = new LinkedList<PermissionAttachment>();
     private final Map<String, PermissionAttachmentInfo> permissions = new HashMap<String, PermissionAttachmentInfo>();
+    private Map<String, Boolean> children = new LinkedHashMap<String, Boolean>();
 	
 	public Group (boolean op, String name) {
 		super(name, null, null, null);
@@ -36,13 +38,15 @@ public class Group extends Permission implements Permissible  {
 	}
 
 	public Group (boolean op, String name, Map<String, Boolean> children) {
-        super(name, null, null, children);
+        super(name, null, null, null);
         this.op = op;
+        this.children = children;
     }
 	
 	public Group (boolean op, String name, String description, Map<String, Boolean> children) {
-        super(name, description, null, children);
+        super(name, description, null, null);
         this.op = op;
+        this.children = children;
     }
 	
 	@Override
@@ -204,7 +208,7 @@ public class Group extends Permission implements Permissible  {
             calculateChildPermissions(attachment.getPermissions(), false, attachment);
         }
         
-        calculateChildPermissions(getChildren(), false, null);
+        calculateChildPermissions(this.children, false, null);
 	}
 
 	@Override
@@ -268,4 +272,43 @@ public class Group extends Permission implements Permissible  {
             attachment.remove();
         }
     }
+
+    @Override
+    public Map<String, Boolean> getChildren() {
+    	Map<String, Boolean> childPerms = new LinkedHashMap<String, Boolean>(this.children);
+    	for (PermissionAttachment att : attachments) {
+    		childPerms.putAll(att.getPermissions());
+    	}
+    	return childPerms;
+    }
+    
+	@Override
+	public boolean inGroup(String group) {
+		if (group == null)
+			throw new IllegalArgumentException("Group name cannot be null");
+
+		Permission perm = Bukkit.getServer().getPluginManager().getPermission(group);
+		if (!(perm instanceof Group))
+			return false;
+
+		return hasPermission(group);
+	}
+
+	@Override
+	public boolean inGroup(Group group) {
+		return inGroup(group.getName());
+	}
+
+	@Override
+	public List<Group> getGroups() {
+		List<Group> groups = new ArrayList<Group>();
+		/*	Loop through all Groups and check if inGroup - add to list if true
+		 * 
+		 * for (Group g : GroupManager.getGroups()) {
+		 * 		if (inGroup(group))
+		 * 			groups.add(g);
+		 * }
+		 */
+		return groups;
+	}
 }
