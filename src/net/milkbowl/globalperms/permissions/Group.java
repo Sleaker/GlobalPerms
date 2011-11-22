@@ -1,6 +1,7 @@
 package net.milkbowl.globalperms.permissions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -20,12 +22,15 @@ import org.bukkit.plugin.Plugin;
 /**
  * Represents a Group of Permissions that can be attached, and have attachments. Along with being given ops.
  */
-public class Group extends Permission implements ExtendedPermissibleBase  {
+public class Group extends Permission implements ExtendedPermissible  {
 
 	private boolean op;
 	private final List<PermissionAttachment> attachments = new LinkedList<PermissionAttachment>();
 	private final Map<String, PermissionAttachmentInfo> permissions = new HashMap<String, PermissionAttachmentInfo>();
 	private Map<String, Boolean> children = new LinkedHashMap<String, Boolean>();
+	
+	// Offline - plugin-specific Necessities
+	private Set<String> users = new HashSet<String>();
 
 	public Group (boolean op, String name) {
 		super(name, null, null, null);
@@ -310,5 +315,37 @@ public class Group extends Permission implements ExtendedPermissibleBase  {
 		 * }
 		 */
 		return groups;
+	}
+	
+	public boolean addUser(Player player) {
+		return addUser(player.getName());
+	}
+	
+	public boolean addUser(String name) {
+		boolean added = users.add(name);
+		if (added) {
+			//Resave the group
+		}
+		return added;
+	}
+	
+	public boolean removeUser(Player player) {
+		return removeUser(player.getName());
+	}
+	
+	public boolean removeUser(String name) {
+		boolean removed = users.remove(name);
+		if (removed) {
+			//Resave the group
+		}
+		return removed;
+	}
+	
+	public Set<String> getUsers() {
+		return new HashSet<String>(users);
+	}
+	
+	protected void addAllUsers(Collection<String> names) {
+		users.addAll(names);
 	}
 }

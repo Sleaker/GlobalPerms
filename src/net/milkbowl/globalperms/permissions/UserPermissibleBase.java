@@ -10,7 +10,7 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 
-public class UserPermissibleBase extends PermissibleBase implements ExtendedPermissibleBase {
+public class UserPermissibleBase extends PermissibleBase implements ExtendedPermissible {
 
 	public UserPermissibleBase(Player player) {
 		super(player);
@@ -20,18 +20,19 @@ public class UserPermissibleBase extends PermissibleBase implements ExtendedPerm
 		Permissible permissible = new UserPermissibleBase(player);
 
 		try {
-			if (player.getClass().getName().contains("Spout")) {
-				injectSpout(player, permissible);
-			} else {
-				injectCraftBukkit(player, permissible);
-			}
+			inject(player, permissible, player.getClass().getName().contains("Spout"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	protected static void injectCraftBukkit(Player player, Permissible permissible) throws Exception {
-		Class<?> humanEntity = Class.forName("org.bukkit.craftbukkit.entity.CraftHumanEntity");
+	private static void inject(Player player, Permissible permissible, boolean spout) throws Exception {
+		Class<?> humanEntity;
+		
+		if (spout)
+			humanEntity = Class.forName("org.getspout.spout.player.SpoutCraftPlayer");
+		else
+			humanEntity = Class.forName("org.bukkit.craftbukkit.entity.CraftHumanEntity");
 
 		Field permField = humanEntity.getDeclaredField("perm");
 		// Make it public for reflection
@@ -52,14 +53,6 @@ public class UserPermissibleBase extends PermissibleBase implements ExtendedPerm
 		permissionsField.set(permissible, permissionsField.get(oldBase));
 
 		// Inject permissible
-		permField.set(player, permissible);
-	}
-
-	protected static void injectSpout(Player player, Permissible permissible) throws Exception {
-		Class<?> humanEntity = Class.forName("org.getspout.spout.player.SpoutCraftPlayer");
-		Field permField = humanEntity.getDeclaredField("perm");
-		permField.setAccessible(true);
-
 		permField.set(player, permissible);
 	}
 
